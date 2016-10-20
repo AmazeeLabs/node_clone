@@ -252,7 +252,7 @@ function clone_action_clone($original_node, $context) {
     $node = _clone_node_prepare($original_node, !empty($val['prefix_title']));
     if (isset($val['substitute_from']) && strlen($val['substitute_from']) && isset($val['substitute_to'])) {
       $i = (!empty($val['substitute_case_insensitive']) ? 'i' : '');
-      $pattern = '#'. strtr($val['substitute_from'], array('#' => '\#')) . '#' . $i;
+      $pattern = '#' . strtr($val['substitute_from'], array('#' => '\#')) . '#' . $i;
       foreach (array('title') as $property) {
         $new = preg_replace($pattern, $val['substitute_to'], $node->{$property});
         if ($new) {
@@ -260,7 +260,7 @@ function clone_action_clone($original_node, $context) {
         }
       }
       foreach (array('body') as $property) {
-        foreach($node->{$property} as $lang => $row) {
+        foreach ($node->{$property} as $lang => $row) {
           foreach ($row as $delta => $data) {
             foreach (array('value', 'summary') as $key) {
               if (isset($node->{$property}[$lang][$delta][$key])) {
