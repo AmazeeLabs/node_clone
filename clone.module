@@ -85,7 +85,7 @@ function clone_token_to_arg($arg, $map) {
  *   Either 'confirm' or a CSRF token.
  */
 function clone_get_token($nid) {
-  if (variable_get('clone_nodes_without_confirm', FALSE)) {
+  if (variable_get('clone_nodes_without_confirm', FALSE) && variable_get('clone_method', 'prepopulate') != 'prepopulate') {
     return drupal_get_token('clone_access_cloning-' . $nid);
   }
   return 'confirm';
@@ -125,6 +125,17 @@ function clone_action_link_title($node) {
     return t('Clone this !type', array('!type' => drupal_strtolower(node_type_get_name($node))));
   }
   return t('Clone content');
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter
+ */
+function clone_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Remove tabs from the node clone form - these are confusing as they link to
+  // the the original node and its edit form.
+  if ($router_item['path'] == 'node/%/clone/%') {
+    $data['tabs'] = array();
+  }
 }
 
 /**
