@@ -231,6 +231,11 @@ function _clone_node_prepare($original_node, $prefix_title = FALSE, $account = N
       // Cast to int since that's how they need to be saved to the DB.
       $node->$key = (int) in_array($key, $node_options);
     }
+
+    // Reset workbench_moderation data.
+    if (isset($node->workbench_moderation)) {
+      $node->workbench_moderation = NULL;
+    }
   }
   return $node;
 }
